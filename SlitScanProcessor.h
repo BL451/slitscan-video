@@ -15,20 +15,20 @@ typedef enum Direction{
 
 class SlitScanProcessor{
     public:
-        SlitScanProcessor(Direction _direction, int _numDivisions);
+        SlitScanProcessor(Direction _direction, int _numSlices);
         int setDirection(Direction _direction);
-        int setNumDivisions(int _numDivisions);
+        int setNumSlices(int _numSlices);
         int processFile(char* filename);
     virtual ~SlitScanProcessor();
     private:
-        int calculateDivisionSize(int width, int height);
+        int calculateSliceSize(int width, int height);
         int initFrameVector();
         int incrementFrameVector();
         Mat generateOutFrame(int width, int height);
         VideoCapture input;
         VideoWriter output;
         Direction direction;
-        int numDivisions;
+        int numSlices;
         std::vector<Mat> frame_list;
-        int divisionPixelSize;
+        int slicePixelSize;
 };
