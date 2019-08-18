@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <string>
+#include <math.h>
 using namespace cv;
 
 typedef enum Direction{
@@ -21,8 +22,15 @@ class SlitScanProcessor{
         int processFile(char* filename);
     virtual ~SlitScanProcessor();
     private:
-
+        int calculateDivisionSize(int width, int height);
+        int initFrameVector();
+        int incrementFrameVector();
+        Mat generateOutFrame(int width, int height);
+        VideoCapture input;
+        VideoWriter output;
         Direction direction;
         float timeDisplacement;
         int numDivisions;
+        std::vector<Mat> frame_list;
+        int divisionPixelSize;
 };
