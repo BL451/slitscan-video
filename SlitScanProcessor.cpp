@@ -33,7 +33,10 @@ int SlitScanProcessor::processFile(char* filename){
     int frame_width = input.get(CAP_PROP_FRAME_WIDTH);
     int frame_height = input.get(CAP_PROP_FRAME_HEIGHT);
     double fps = input.get(CAP_PROP_FPS);
-    std::string output_name = "SLITSCANLEFT_";
+    std::string output_name = "SLITSCAN_";
+    output_name.append(std::to_string(direction));
+    output_name.append(std::to_string(numDivisions));
+    output_name.append("_");
     output_name.append(filename);
     printf("%d, %d, %f\n", frame_width, frame_height, fps);
     output.open(output_name, VideoWriter::fourcc('m', 'p', '4', 'v'), fps, Size(frame_width, frame_height), true);
@@ -93,6 +96,12 @@ int SlitScanProcessor::incrementFrameVector(){
 
 
 Mat SlitScanProcessor::generateOutFrame(int width, int height){
+    /*
+    Generates output frame based on the current frames in the frame list,
+    taking direction and division size into account. Note that row access
+    is faster than column access, meaning that LEFT and RIGHT directions
+    will have longer processing time.
+    */
     Mat outframe = Mat::zeros(frame_list[0].size(), frame_list[0].type());
     for (int i = 0; i < frame_list.size(); i++){
         for (int j = 0; j < divisionPixelSize; j++){
@@ -121,7 +130,7 @@ Mat SlitScanProcessor::generateOutFrame(int width, int height){
 
 int main(int argc, char** argv) 
 {
-    SlitScanProcessor Processor(LEFT, 108);
+    SlitScanProcessor Processor(UP, 108);
     int success = Processor.processFile(argv[1]);
     return 0; 
 }
