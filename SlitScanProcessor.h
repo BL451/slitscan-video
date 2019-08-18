@@ -15,9 +15,8 @@ typedef enum Direction{
 
 class SlitScanProcessor{
     public:
-        SlitScanProcessor(Direction _direction, float _timeDisplacement, int _numDivisions);
+        SlitScanProcessor(Direction _direction, int _numDivisions);
         int setDirection(Direction _direction);
-        int setTimeDisplacement(float _timeDisplacement);
         int setNumDivisions(int _numDivisions);
         int processFile(char* filename);
     virtual ~SlitScanProcessor();
@@ -29,7 +28,6 @@ class SlitScanProcessor{
         VideoCapture input;
         VideoWriter output;
         Direction direction;
-        float timeDisplacement;
         int numDivisions;
         std::vector<Mat> frame_list;
         int divisionPixelSize;

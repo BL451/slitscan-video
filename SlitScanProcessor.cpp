@@ -1,9 +1,8 @@
 #include "SlitScanProcessor.h"
 
 
-SlitScanProcessor::SlitScanProcessor(Direction _direction, float _timeDisplacement, int _numDivisions){
+SlitScanProcessor::SlitScanProcessor(Direction _direction, int _numDivisions){
     direction = _direction;
-    timeDisplacement = _timeDisplacement;
     numDivisions = _numDivisions;
 }
 
@@ -16,12 +15,6 @@ SlitScanProcessor::~SlitScanProcessor(){
 
 int SlitScanProcessor::setDirection(Direction _direction){
     direction = _direction;
-    return 1;
-}
-
-
-int SlitScanProcessor::setTimeDisplacement(float _timeDisplacement){
-    timeDisplacement = _timeDisplacement;
     return 1;
 }
 
@@ -40,16 +33,15 @@ int SlitScanProcessor::processFile(char* filename){
     int frame_width = input.get(CAP_PROP_FRAME_WIDTH);
     int frame_height = input.get(CAP_PROP_FRAME_HEIGHT);
     double fps = input.get(CAP_PROP_FPS);
-    std::string output_name = "SLITSCAN_";
+    std::string output_name = "SLITSCANLEFT_";
     output_name.append(filename);
     printf("%d, %d, %f\n", frame_width, frame_height, fps);
     output.open(output_name, VideoWriter::fourcc('m', 'p', '4', 'v'), fps, Size(frame_width, frame_height), true);
     initFrameVector();
     calculateDivisionSize(frame_width, frame_height);
-    int i = 0;
-    // Copying row from one frame to another: sampling_frame.row(i).copyTo(output_frame.row(j));
+    int k = 0;
     for (;;){
-        printf("\rWriting frame %d", ++i);
+        printf("\rWriting frame %d", ++k);
         fflush(stdout);
         output.write(generateOutFrame(frame_width, frame_height));
         if (incrementFrameVector() == -1){
@@ -77,8 +69,8 @@ int SlitScanProcessor::calculateDivisionSize(int width, int height){
 
 int SlitScanProcessor::initFrameVector(){
     frame_list.clear();
-    Mat frame;
     for (int i = 0; i < numDivisions; i++){
+        Mat frame;
         if (!input.read(frame)){
             printf("numDivisions exceeds framecount!\n");
             return -1;
@@ -129,7 +121,7 @@ Mat SlitScanProcessor::generateOutFrame(int width, int height){
 
 int main(int argc, char** argv) 
 {
-    SlitScanProcessor Processor(RIGHT, 0.5, 216);
+    SlitScanProcessor Processor(LEFT, 108);
     int success = Processor.processFile(argv[1]);
     return 0; 
 }
