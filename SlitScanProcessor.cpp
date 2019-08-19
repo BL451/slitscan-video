@@ -132,17 +132,17 @@ Mat SlitScanProcessor::generateOutFrame(int width, int height){
                     frame_list[i].row((i*slicePixelSize) + j).copyTo(outframe.row((i*slicePixelSize) + j));
                 }
                 else if (direction == UP){
-                    frame_list[i].row(height - ((i*slicePixelSize) + j)).copyTo(outframe.row(height - ((i*slicePixelSize) + j)));
+                    frame_list[i].row((height-1) - ((i*slicePixelSize) + j)).copyTo(outframe.row((height-1) - ((i*slicePixelSize) + j)));
                 }
                 else if (direction == RIGHT){
                     frame_list[i].col((i*slicePixelSize) + j).copyTo(outframe.col((i*slicePixelSize) + j));
                 }
                 else if (direction == LEFT){
-                    frame_list[i].col(width - ((i*slicePixelSize) + j)).copyTo(outframe.col(width - ((i*slicePixelSize) + j)));
+                    frame_list[i].col((width-1) - ((i*slicePixelSize) + j)).copyTo(outframe.col((width-1) - ((i*slicePixelSize) + j)));
                 }
             }
             catch (Exception){
-                break;
+                continue;
             }
         }
     }
