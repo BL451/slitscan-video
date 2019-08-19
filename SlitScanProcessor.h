@@ -15,8 +15,8 @@ typedef enum Direction{
 
 class SlitScanProcessor{
     public:
-        SlitScanProcessor(Direction _direction, int _numSlices);
-        int setDirection(Direction _direction);
+        SlitScanProcessor(int _direction, int _numSlices);
+        int setDirection(int _direction);
         int setNumSlices(int _numSlices);
         int processFile(char* filename);
     virtual ~SlitScanProcessor();

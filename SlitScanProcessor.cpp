@@ -1,8 +1,8 @@
 #include "SlitScanProcessor.h"
 
 
-SlitScanProcessor::SlitScanProcessor(Direction _direction, int _numSlices){
-    direction = _direction;
+SlitScanProcessor::SlitScanProcessor(int _direction, int _numSlices){
+    setDirection(_direction);
     numSlices = _numSlices;
 }
 
@@ -13,8 +13,13 @@ SlitScanProcessor::~SlitScanProcessor(){
 }
 
 
-int SlitScanProcessor::setDirection(Direction _direction){
-    direction = _direction;
+int SlitScanProcessor::setDirection(int _direction){
+    switch(_direction){
+        case 0: direction = UP; break;
+        case 1: direction = RIGHT; break;
+        case 2: direction = DOWN; break;
+        case 3: direction = LEFT; break;
+    }
     return 1;
 }
 
@@ -144,10 +149,11 @@ Mat SlitScanProcessor::generateOutFrame(int width, int height){
     return outframe;
 }
 
-
+/*
 int main(int argc, char** argv) 
 {
     SlitScanProcessor Processor(UP, 54);
     int success = Processor.processFile(argv[1]);
     return 0; 
 }
+*/
